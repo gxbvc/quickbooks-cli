@@ -61,14 +61,9 @@ Base URLs: `https://sandbox-quickbooks.api.intuit.com` / `https://quickbooks.api
 
 - **Access token: 60 minutes.** Auto-refreshed transparently before any command (and once more on a 401).
 - **Refresh token: 100-day rolling window, but its VALUE rotates ~every 24h.** After every refresh this tool atomically overwrites `tokens.json` with the newest refresh token — if a rotated value is ever lost, the session is stranded and you must re-run `auth`.
-- Run a **daily cron refresh** as a backstop so the window never lapses even when the CLI sits unused:
+- A **daily refresh backstop is already installed** on this machine so the window never lapses even when the CLI sits unused: the launchd agent `com.gxb.quickbooks-token-refresh` (`~/Library/LaunchAgents/com.gxb.quickbooks-token-refresh.plist`) runs `~/utils/refresh-quickbooks-token.sh` every day at 04:15, logging to `~/.cache/cron/refresh-quickbooks-token.log`. (A launchd agent rather than crontab because macOS TCC blocks non-interactive `crontab` writes.) On a new machine, copy both files and `launchctl bootstrap gui/$UID ~/Library/LaunchAgents/com.gxb.quickbooks-token-refresh.plist`.
 
-```cron
-# crontab -e  (use an absolute node path — cron doesn't load nvm)
-17 6 * * * cd $HOME/tools/quickbooks-cli && $HOME/.nvm/versions/node/v20.10.0/bin/node bin/quickbooks-cli.js auth --refresh >> /tmp/quickbooks-refresh.log 2>&1
-```
-
-(Or drop a one-liner script in `~/cron/daily/`.) Check health any time with `quickbooks-cli auth --status`.
+Check health any time with `quickbooks-cli auth --status`.
 
 ## Output format
 
