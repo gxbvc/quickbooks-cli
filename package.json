@@ -1,0 +1,27 @@
+{
+  "name": "quickbooks-cli",
+  "version": "0.1.0",
+  "description": "Read-only CLI for QuickBooks Online (official v3 API + best-effort bank-feed fallback)",
+  "type": "module",
+  "bin": {
+    "quickbooks-cli": "./bin/quickbooks-cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "auth": "tsx src/cli.ts auth"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "commander": "^13.1.0",
+    "dotenv": "^16.4.7",
+    "intuit-oauth": "^4.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3"
+  }
+}
