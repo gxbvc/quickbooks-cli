@@ -144,11 +144,11 @@ withPretty(
   program
     .command("bankfeed")
     .description(
-      "BEST-EFFORT, UNOFFICIAL: bank-feed balances and For-Review counts via the internal qbo.intuit.com olb endpoint, evaluated inside an already-logged-in Chrome tab (agent-chrome; never navigates your tabs). The official API cannot see these."
+      "BEST-EFFORT, UNOFFICIAL: bank-feed balances and For-Review counts via internal QBO web-app endpoints (vault.api.intuit.com for balances, accounting-txn-svcs for the For Review queue; the retired olb getInitialData endpoint is still tried first), evaluated inside an already-logged-in Chrome tab (agent-chrome; never navigates your tabs). The official API cannot see these."
     )
 )
   .option("--realm <id>", "Realm to query (defaults to the Abelian realm when QB_ENVIRONMENT=production)")
-  .option("--raw", "Include the full raw getInitialData payload in the output")
+  .option("--raw", "Include the full raw payloads from all three endpoints in the output")
   .action(async (opts) => {
     const { bankfeed } = await import("./commands/bankfeed.js");
     await run(() => bankfeed(opts));
